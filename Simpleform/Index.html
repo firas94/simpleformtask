@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Home Page</h1>
+
+<form id = "Sign Up" action = "">
+<table>
+<tr><td><h3>Sign Up</h3></td></tr>
+<tr>
+<td>UserName:</td>
+<td><input type="text" id="signupuser" onchange="checkusername();"></td>
+<td><input type="button" value="ValidateUsername" onclick="validateusername();"></td>
+<td><span id="validateusernamereturn"></span></td>
+</tr>
+<tr>
+<td>Password:</td>
+<td><input type="text" id="signuppass"></td>
+</tr>
+<tr>
+<td><input type="button" id="signupbutton" value="Sign Up" onclick="signup();"></td>
+<td><span id="signupreturn"></span></td>
+</tr>
+</table>
+</form>
+
+<form id = "Sign In" action = "">
+<table>
+<tr><td><h3>Sign In</h3></td></tr>
+<tr>
+<td>UserName:</td>
+<td><input type="text" id="signinuser"></td>
+</tr>
+<tr>
+<td>Password:</td>
+<td><input type="text" id="signinpass"></td>
+</tr>
+<tr>
+<td><input type="button" value="Sign In" onclick="signin();"></td>
+<td><span id="signinreturn"></span></td>
+</tr>
+</table>
+</form>
+
+
+<script type="text/javascript">
+var uniqueusername=false;
+function checkusername(){
+	uniqueusername=false;
+} 
+function validateusername(){
+	var username=document.getElementById("signupuser").value;
+	var xmlhttp;
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function(){
+	    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){document.getElementById("validateusernamereturn").innerHTML="<p>"+xmlhttp.responseText+"</p>";
+	    	if (xmlhttp.responseText=="Username is valid!")
+	    		uniqueusername=true;
+	    	}
+	    }
+	xmlhttp.open("GET", "Sign.php?type=validateusername&username="+username, true);
+	xmlhttp.send();
+}
+
+function signup(){
+	var username=document.getElementById("signupuser").value;
+	var password=document.getElementById("signuppass").value;
+	var xmlhttp;
+	xmlhttp=new XMLHttpRequest();
+	if (password.length<7){document.getElementById("signupreturn").innerHTML="<p>Pass must be atleast 7 chars</p>"}
+	else if(uniqueusername){
+	xmlhttp.onreadystatechange = function(){
+	    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){document.getElementById("signupreturn").innerHTML="<p>"+xmlhttp.responseText+"</p>"
+	        }
+	    }
+	xmlhttp.open("GET", "Sign.php?type=signup&username="+username+"&password="+password, true);
+	xmlhttp.send();
+}
+else {document.getElementById("signupreturn").innerHTML="<p>Please Validate the Username First!</p>"}
+
+}
+
+function signin(){
+	var username=document.getElementById("signinuser").value;
+	var password=document.getElementById("signinpass").value;
+	var xmlhttp;
+	xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function(){
+	    if (xmlhttp.readyState == 4 && xmlhttp.status == 200){document.getElementById("signinreturn").innerHTML="<p>"+xmlhttp.responseText+"</p>"
+	    	}
+	    }
+	xmlhttp.open("GET", "Sign.php?type=signin&username="+username+"&password="+password, true);
+	xmlhttp.send();
+}
+</script>
+</body>
+</html>
