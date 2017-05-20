@@ -71,7 +71,7 @@ else {
     if(array_keys($usercredentials)[0]=="error")
         echo "Either Username or Password entered was incorrect.";
     else if (md5($enteredpassword)==$usercredentials['password'])
-        echo "Entered password is correct!";
+        echo "You have logged in successfully!";
     
     else 
         echo "Either Username or Password entered was incorrect.";
